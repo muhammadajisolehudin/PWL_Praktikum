@@ -292,6 +292,12 @@ return [
     'menu' => [
         // Navbar items:
         [
+            'text'  => 'Buku',
+            'url'   => 'admin/books',
+            'icon'  => 'fas fa-fw fa-books',
+            'can'   => 'isAdmin'
+        ],
+        [
             'type'         => 'navbar-search',
             'text'         => 'search',
             'topnav_right' => true,

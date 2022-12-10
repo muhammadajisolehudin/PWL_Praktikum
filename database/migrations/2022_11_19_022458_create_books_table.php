@@ -19,8 +19,8 @@ class CreateBooksTable extends Migration
             $table->string('judul')->unique();
             $table->string('penulis');
             $table->year('tahun');
-            $table->string('penulis');
-            $table->string('penulis');
+            $table->string('penerbit');
+            $table->string('cover')->nullable();
             $table->timestamps();
 
         });
