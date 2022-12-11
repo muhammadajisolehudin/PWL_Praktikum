@@ -23,9 +23,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Auth::routes();
 
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
+// salah tanpa controller
+//Route::get('/home', function() {return view('home');})->name('home')->middleware('auth');
+
+Route::get('/home',[App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
 Route::get('admin/home', [App\Http\Controllers\AdminController::class, 'index'])
 ->name('admin.home')
@@ -43,3 +44,5 @@ Route::post('admin/books', [App\Http\Controllers\Admincontroller::class, 'submit
 Route::patch('admin/books/update', [App\Http\Controllers\Admincontroller::class, 'update_book'])
 ->name('admin.book.update')
 ->middleware('is_admin');
+
+Route::get('admin/ajaxadmin/dataBuku/{id}', [App\Http\Controller\AdminController::class, 'getDataBuku']);

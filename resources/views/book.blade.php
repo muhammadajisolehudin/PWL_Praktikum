@@ -6,51 +6,6 @@
 
 @section('content')
 
-<!-- Modal -->
-<div class="modal fade" id="tambahBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Buku</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-
-        <form method="post" action="{{ route('admin.book.submit') }}" enctype="multipart/form-data">
-            @csrf
-            <div class="form-group">
-                <label for="judul">Judul Buku</label>
-                <input type="text" class="form-control" name="judul" id="judul" required/>
-            </div>
-            <div class="form-group">
-                <label for="penulis">Penulis</label>
-                <input type="text" class="form-control" name="penulis" id="penulis" required/>
-            </div>
-            <div class="form-group">
-                <label for="tahun">Tahun</label>
-                <input type="year" class="form-control" name="tahun" id="tahun" required/>
-            </div>
-            <div class="form-group">
-                <label for="penerbit">Penerbit</label>
-                <input type="text" class="form-control" name="penerbit" id="penerbit" required/>
-            </div>
-            <div class="form-group">
-                <label for="cover">Cover</label>
-                <input type="file" class="form-control" name="cover" id="cover" required/>
-            </div>
-    </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Kirim</button>
-        </form>
-        </div>
-    </div>
-  </div>
-</div>
-@stop
-
 <div class="container-fluid">
     <div class="card card-default">
         <div class="card card-header">{{ _('pengelolaan Buku') }}</div>
@@ -101,7 +56,90 @@
 
 </div>
 
+
+
+{{-- js --}}
+@section('js')
+    <script>
+        $function(){
+            $(document).on('click','#btn-edit-buku', function(){
+                let id = $(this).data('id');
+                $('#image-area').empty();
+
+                $.ajax({
+                    type: "get",
+                    url: "{{ url('/admin/ajaxadmin/dataBuku') }}/"+id,
+                    dataType: 'json',
+                    success: function(res){
+                        $('#edit-judul').val(res.judul);
+                        $('#edit-penerbit').val(res.penerbit);
+
+                        $('#edit-penulis').val(res.penulis);
+                        $('#edit-tahun').val(res.tahun);
+                        $('#edit-id').val(res.id);
+                        $('#edit-old-cover').val(res.cover);
+
+                        if(){
+                            $('#image-area').append("<img src='"+baseurl+"/storage/cover_buku/"+res.cover+"' width='200px'/>");
+
+                        }else{
+                            $('#image-area').append('[Gambar tidak tersedia]');
+
+                        }
+
+                    },
+                });
+            });
+        }
+    </script>
+@stop
 @endsection
+
+
+<!-- Modal -->
+<div class="modal fade" id="tambahBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tambah Data Buku</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form method="post" action="{{ route('admin.book.submit') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="judul">Judul Buku</label>
+                <input type="text" class="form-control" name="judul" id="judul" required/>
+            </div>
+            <div class="form-group">
+                <label for="penulis">Penulis</label>
+                <input type="text" class="form-control" name="penulis" id="penulis" required/>
+            </div>
+            <div class="form-group">
+                <label for="tahun">Tahun</label>
+                <input type="year" class="form-control" name="tahun" id="tahun" required/>
+            </div>
+            <div class="form-group">
+                <label for="penerbit">Penerbit</label>
+                <input type="text" class="form-control" name="penerbit" id="penerbit" required/>
+            </div>
+            <div class="form-group">
+                <label for="cover">Cover</label>
+                <input type="file" class="form-control" name="cover" id="cover" required/>
+            </div>
+    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-primary">Kirim</button>
+        </form>
+        </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="editBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -159,7 +197,7 @@
                     </button>
                 </form>
 
-            </div>    
+            </div>
         </div>
     </div>
 </div>
