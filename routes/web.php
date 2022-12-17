@@ -21,28 +21,37 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-// salah tanpa controller
-//Route::get('/home', function() {return view('home');})->name('home')->middleware('auth');
-
 Route::get('/home',[App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 
+
+
+//akses admin home
 Route::get('admin/home', [App\Http\Controllers\AdminController::class, 'index'])
 ->name('admin.home')
 ->middleware('is_admin');
 
-Route::get('admin/books', [App\Http\Controllers\Admincontroller::class, 'books'])
+
+//untuk menampilkan (mengambil data)
+Route::get('admin/books', [App\Http\Controllers\AdminController::class, 'books'])
 ->name('admin.books')
 ->middleware('is_admin');
 
-//Pengelolaan buku
-Route::post('admin/books', [App\Http\Controllers\Admincontroller::class, 'submit_book'])
+//PENGELOLAAN BUKU
+
+//membuat/menambah buku
+Route::post('admin/books', [App\Http\Controllers\AdminController::class, 'submit_book'])
 ->name('admin.book.submit')
 ->middleware('is_admin');
 
-Route::patch('admin/books/update', [App\Http\Controllers\Admincontroller::class, 'update_book'])
+//mengubah data buku
+Route::patch('admin/books/update', [App\Http\Controllers\AdminController::class, 'update_book'])
 ->name('admin.book.update')
 ->middleware('is_admin');
 
-Route::get('admin/ajaxadmin/dataBuku/{id}', [App\Http\Controller\AdminController::class, 'getDataBuku']);
+//MENAMPILKAN DATA DI FORM UPDATE
+Route::get('admin/ajaxadmin/dataBuku/{id}', [App\Http\Controllers\AdminController::class, 'getDataBuku']);
+
+//menghapus
+Route::post('admin/books/delete/{id}',[App\Http\Controllers\Admincontroller::class, 'delete_book'])
+->name('admin.book.delete')
+->middleware('is_admin');

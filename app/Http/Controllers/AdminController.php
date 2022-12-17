@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//yang ditambahkan 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -11,6 +12,7 @@ use App\Models\Book;
 
 class AdminController extends Controller
 {
+    //
     public function __construct(){
         $this->middleware('auth');
     }
@@ -20,9 +22,17 @@ class AdminController extends Controller
         $books = Book::all();
         return view('book', compact('user', 'books'));
     }
+    
+
+      //untuk mengaksess buku
+      public function books(){
+        $user = Auth::user();
+        $books = Book::all();
+        return view('book', compact('user', 'books'));
+    }
 
     //function create/tambah buku
-    public function submit_book(request $req){
+    public function submit_book(Request $req){
         $validate = $req->validate([
             'judul' => 'required|max:255',
             'penulis' => 'required',
@@ -58,7 +68,7 @@ class AdminController extends Controller
     }
 
     //AJAX PROCCES
-    public function getDataBuku($id){
+      public function getDataBuku($id){
         $buku = Book::find($id);
         return response()->json($buku);
     }
@@ -101,5 +111,21 @@ class AdminController extends Controller
 
 
     }
+
+    //function delete book
+    public function delete_book($id){
+        $book = Book::find($id);
+        Storage::delete('public/cover_buku/'.$book->cover);
+        $book->delete();
+
+        $success = true;
+        $message = "Data buku berhasil dihapus";
+
+        return response()->json([
+            'success' => $success,
+            'message' => $message,
+        ]);
+    }
+
 
 }

@@ -44,59 +44,18 @@
                             <td>
                                 <div class="btn-group" role="group" aria-label="Basic axample">
                                     <button type="button" id="btn-edit-buku" class="btn btn-success" data-toggle="modal" data-target="#editBukuModal" data-id="{{ $book->id}}">Edit</button>
-                                    <button type="button" id="btn-delete-buku" class="btn btn-danger">Hapus</button>
+                                    <button type="button" class="btn btn-danger" onclick="deleteConfirmation('{{$book->id}}','{{$book->judul}}')">Hapus</button>
                                 </div>
                             </td>
                         </tr>
-                    @endforeach
+                        @endforeach
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
 
-
-
-{{-- js --}}
-@section('js')
-    <script>
-        $function(){
-            $(document).on('click','#btn-edit-buku', function(){
-                let id = $(this).data('id');
-                $('#image-area').empty();
-
-                $.ajax({
-                    type: "get",
-                    url: "{{ url('/admin/ajaxadmin/dataBuku') }}/"+id,
-                    dataType: 'json',
-                    success: function(res){
-                        $('#edit-judul').val(res.judul);
-                        $('#edit-penerbit').val(res.penerbit);
-
-                        $('#edit-penulis').val(res.penulis);
-                        $('#edit-tahun').val(res.tahun);
-                        $('#edit-id').val(res.id);
-                        $('#edit-old-cover').val(res.cover);
-
-                        if(){
-                            $('#image-area').append("<img src='"+baseurl+"/storage/cover_buku/"+res.cover+"' width='200px'/>");
-
-                        }else{
-                            $('#image-area').append('[Gambar tidak tersedia]');
-
-                        }
-
-                    },
-                });
-            });
-        }
-    </script>
-@stop
-@endsection
-
-
-<!-- Modal -->
+<!-- Modal TAMBAH DATA-->
 <div class="modal fade" id="tambahBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -133,7 +92,7 @@
     </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Kirim</button>
+                <button type="submit" class="btn btn-primary">Kirim</button>
         </form>
         </div>
     </div>
@@ -141,7 +100,7 @@
 </div>
 
 
-<!-- Modal -->
+<!-- Modal EDIT -->
 <div class="modal fade" id="editBukuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -182,7 +141,7 @@
                                 <div class="form-group" id="image-area"></div>
                                 <div class="form-group">
                                     <label for="edit-cover">Cover</label>
-                                    <input type="file" class="form-control" name="cover" id="edit-cover" required/>
+                                    <input type="file" class="form-control" name="cover" id="edit-cover"/>
                                 </div>
                         </div>
                     </div>
@@ -201,4 +160,80 @@
         </div>
     </div>
 </div>
+@stop
 
+@section('js')
+    <script>
+        $(function(){
+            $(document).on('click','#btn-edit-buku', function(){
+                let id = $(this).data('id');
+                $('#image-area').empty();
+
+                $.ajax({
+                    type: "get",
+                    url: "{{ url('/admin/ajaxadmin/dataBuku') }}/"+id,
+                    dataType: 'json',
+                    success: function(res){
+                        $('#edit-judul').val(res.judul);
+                        $('#edit-penerbit').val(res.penerbit);
+
+                        $('#edit-penulis').val(res.penulis);
+                        $('#edit-tahun').val(res.tahun);
+                        $('#edit-id').val(res.id);
+                        $('#edit-old-cover').val(res.cover);
+
+                        if (res.cover !== null) {
+                            $('#image-area').append("<img src='"+baseurl+"/storage/cover_buku/"+res.cover+"' width='200px'/>");
+
+                        }else{
+                            $('#image-area').append('[Gambar tidak tersedia]');
+
+                        }
+
+                    },
+                });
+            });
+        });
+
+        function deleteConfirmation(id, judul){
+            swal.fire({
+                title:"Hapus?",
+                type: 'warning',
+                text: "Apakah anda yakin akan menghapus data buku dengan judul"+judul+"?!",
+                showCancelButton: !0,
+                confirmButtonText: "ya, lakukan!",
+                cancelButtonText: "tidak, batalkan!",
+                reverseButtons: !0
+            }).then(function (e){
+                if(e.value === true){
+                    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "books/delete/" + id,
+                        data: {_token: CSRF_TOKEN},
+                        datatype: 'JSON',
+                        success: function(results){
+                            if(results.success === true){
+                                swal.fire("Done!", results.message, "success");
+
+                                //refres after 2 seconds
+                                setTimeout(function(){
+                                    location.reload();
+                                }, 1000);
+                            }else{
+                                swal.fire("Error!", results.message, "error");
+                            }
+                        }
+
+                    });
+                }else{
+                    e.dismiss;
+                }
+            }, function (dismiss){
+                    return false;
+            })
+        }
+
+    </script>
+@stop

@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'KaryawanKamarKita|Dashboard',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -290,13 +290,47 @@ return [
     */
 
     'menu' => [
-        // Navbar items:
         [
             'text'  => 'Buku',
             'url'   => 'admin/books',
             'icon'  => 'fas fa-fw fa-books',
             'can'   => 'isAdmin'
         ],
+        'MAIN NAVIGATION',
+        [
+            'text' => 'Blog',
+            'url' => 'admin/blog',
+            'can' => 'isUser',
+
+        ],
+        [
+            'text' => 'Pages',
+            'url' => 'admin/pages',
+            'icon' => 'fas fa-fw fa-file',
+            'can' => ['isUser', 'isAdmin'],
+
+        ],
+        [
+            'header' => 'ACCOUNT SETTINGS',
+        ],
+        [
+            'text' => 'Profile',
+            'url' => 'admin.profile',
+            'icon' => 'fas fa-fw fa-user',
+            'can' => 'isAdmin',
+
+        ],
+        [
+            'text' => 'Change Password',
+            'url' => 'admin.password',
+            'icon' => 'fas fa-fw fa-lock',
+            'can' => 'isAdmin',
+
+        ],
+        
+        
+
+        // Navbar items:
         [
             'type'         => 'navbar-search',
             'text'         => 'search',
@@ -426,22 +460,23 @@ return [
     */
 
     'plugins' => [
+        //activkan plugin dengan merubah value 'active' jadi true;
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
@@ -472,11 +507,11 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],

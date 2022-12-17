@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\Role;
 
 use Illuminate\Database\Seeder;
@@ -14,6 +15,7 @@ class CreateRolesSeeder extends Seeder
      */
     public function run()
     {
+        //
         $roles = [
             [
                 'id' => 1,

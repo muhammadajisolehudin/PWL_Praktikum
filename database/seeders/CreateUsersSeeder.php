@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+
 use App\Models\User;
 
 use Illuminate\Database\Seeder;
@@ -14,9 +15,10 @@ class CreateUsersSeeder extends Seeder
      */
     public function run()
     {
+        //
         $user = [
             [
-                'name' => 'isUser',
+            'name' => 'isUser',
             'username' => 'isUser',
             'email' => 'user@mail.com',
             'password' => bcrypt('12345'),
