@@ -136,6 +136,7 @@ return [
 
     'providers' => [
 
+    
         /*
          * Laravel Framework Service Providers...
          */
@@ -166,6 +167,12 @@ return [
          * Package Service Providers...
          */
 
+        //ditambahkan untuk print pdf 
+        Barryvdh\DomPDF\ServiceProvider::class,    
+
+        //untuk export excel
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+    
         /*
          * Application Service Providers...
          */
@@ -229,6 +236,11 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        //ditambahkan untuk print pdf
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+        //untuk Export excel
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
     ],
 

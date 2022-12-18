@@ -11,6 +11,12 @@
         <div class="card card-header">{{ _('pengelolaan Buku') }}</div>
         <div class="card-body">
             <button class="btn btn-primary" data-toggle="modal" data-target="#tambahBukuModal"><i class="fa fa-plus"></i>Tambah Data</button>
+            <a href="{{ route('admin.print.books') }}" target="_blank" class="btn btn-secondary">
+                <i class="fa fa-print"></i> Cetak PDF</a>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <a href="{{ route('admin.book.export') }}" class="btn btn-info" target="_blank">Export</a>
+                <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#importDataModal">Import</button>
+            </div>
             <hr/>
             <table id="table-data" class="table table-border">
                 <thead>
@@ -159,6 +165,34 @@
             </div>
         </div>
     </div>
+</div>
+
+<!-- Modal import data buku-->
+<div class="modal fade" id="importDataModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Import Data Buku</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form method="post" action="{{ route('admin.book.import') }}" enctype="multipart/form-data">
+            @csrf
+            <div class="form-group">
+                <label for="cover">Import File</label>
+                <input type="file" class="form-control" name="file"/>
+            </div>
+    </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                <button type="submit" class="btn btn-primary">Import Data</button>
+        </form>
+        </div>
+    </div>
+  </div>
 </div>
 @stop
 
